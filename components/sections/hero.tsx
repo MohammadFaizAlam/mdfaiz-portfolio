@@ -28,21 +28,21 @@ import { RichText } from "@/lib/markdown";
 // ] as const;
 
 const TRACK_1 = [
-    "/hero-slider/image-1.jfif",
-    "/hero-slider/succession-1.jfif",
+    "/hero-slider/img-1.jpg",
+    "/hero-slider/succession-1.jpg",
     "/hero-slider/faiz-1.jpeg",
-    "/hero-slider/image-2.jfif",
-    "/hero-slider/succession-2.jfif",
+    "/hero-slider/img-2.jpg",
+    "/hero-slider/succession-2.jpg",
     "/hero-slider/faiz-2.jpg",
 ] as const;
 
 const TRACK_2 = [
     "/hero-slider/faiz-2.jpg",
-    "/hero-slider/succession-2.jfif",
-    "/hero-slider/image-2.jfif",
+    "/hero-slider/succession-2.jpg",
+    "/hero-slider/img-2.jpg",
     "/hero-slider/faiz-1.jpeg",
-    "/hero-slider/succession-1.jfif",
-    "/hero-slider/image-1.jfif",
+    "/hero-slider/succession-1.jpg",
+    "/hero-slider/img-1.jpg",
 ] as const;
 
 const COL_1_IMAGES = [...TRACK_1, ...TRACK_1];
