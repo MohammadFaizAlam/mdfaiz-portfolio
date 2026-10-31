@@ -1,0 +1,121 @@
+{
+    "about": {
+        "intro": "*Web yazılımları* geliştiriyor, **AgencyGrow**'u yönetiyor ve *hacim profili* yapılarını işlemeliyorum.",
+        "description": "Kod, reklam yönetimi ve swing trading aynı kurala dayanır: küçük test et, her şeyi ölç ve işlemeyeni kes. **React ve Python** uygulamaları geliştiriyor, AgencyGrow'da **2–5x ROI** sağlıyor ve *hacim profili* ile işlem açıyorum.",
+        "full": "Ben **Mohd. Faiz Alam**; yazılım geliştirici, swing trader ve **AgencyGrow** kurucusuyum. Ön yüzde *React*, *Next.js*, *TypeScript*, *Framer* ve *Bootstrap*, arka planda *Node.js*, *Python*, *C* ve *MySQL* kullanarak *Figma* tasarımlarını *GitHub* ve *Vercel* üzerinden yayına alıyorum.\n\nPiyasalarda tahmine değil, **volume profile** (hacim profili) ve **structure** verilerine dayalı swing işlemler yapıyorum. Gerçek katılımın nerede toplandığını görmek için *POC*, *value area high/low* ve *high/low volume nodes* bölgelerini haritalandırıyor, fiyatın *swing highs/lows* ötesindeki *liquidity pools* alanlarına tepkisini izliyorum.\n\nYalnızca seviye korunduğunda **entries only on confirmation** kuralıyla işleme giriyorum. Her işlemin önceden belirlenmiş bir *invalidation level* noktası, hesaplanmış *position sizing* oranı ve sabit *risk per trade* sınırı vardır. Sıkı *drawdown* kuralları ve düzenli *journaling* süreci mekanik tutar.\n\n**AgencyGrow** çatısı altında aynı bütçe disiplini ve net dönüşüm takibiyle uçtan uca *Google ve Meta* reklam kampanyaları yönetiyor, müşteri hesaplarında istikrarlı **2–5x ROI** sağlıyorum."
+    },
+    "manifesto": [
+        "RADICAL TRANSPARENCY",
+        "INTENTIONAL MINIMALISM",
+        "ARCHITECTURAL INTEGRITY",
+        "FIRST PRINCIPLES THINKING",
+        "PERFORMANCE WITHOUT COMPROMISE",
+        "SCALABLE VISION"
+    ],
+    "projects": [
+        {
+            "id": "1",
+            "title": "BB84 Quantum",
+            "category": "Kuantum Simülasyonu",
+            "year": "2026",
+            "description": "Kuantum fiziğinin anahtar değişimini nasıl güvenceye aldığını ve dinleyicileri nasıl yakaladığını gösteren etkileşimli bir **BB84 Kuantum Anahtar Dağıtımı** simülatörü. Kullanıcılar durum hazırlama, taban seçimi, anahtar eleme ve *One-Time Pad* şifreleme adımlarını gerçek zamanlı inceler.\n\n*React* ve *TypeScript* arayüzü ile *Python FastAPI* motoru üzerine kurulu sistem, üçüncü bir taraf kanalı ölçtüğü anda müdahaleyi yakalamak için **Kuantum Bit Hata Oranını (QBER)** hesaplar.",
+            "image": "/projects/20260427093247885.jpg",
+            "repo": "https://github.com/MohammadFaizAlam/faiz-quantum-communication",
+            "stack": [
+                "React",
+                "TypeScript",
+                "Python",
+                "FastAPI",
+                "TailwindCSS"
+            ]
+        },
+        {
+            "id": "2",
+            "title": "Nuvora",
+            "category": "Girişim",
+            "year": "2026",
+            "description": "Nuvora, kreatif ve reklam girişimimin dijital vitrini ve müşteri kazanım platformudur. Soğuk trafiği planlanmış görüşmelere dönüştürmek için tasarlanan platform, güçlü tipografiyi etkileşimli vaka analizleri ve net hizmet konumlandırmasıyla birleştirir.\n\n*Next.js*, *React* ve *TypeScript* ile geliştirilen arayüz; sıfır düzen kayması ve yüksek sayfa hızıyla tüm cihazlarda akıcı kaydırma koreografisi sunmak için *Framer Motion*, *GSAP* ve *Locomotive Scroll* kullanır.",
+            "image": "/projects/20260427093247620.jpg",
+            "demo": "https://nuvora-media.vercel.app/",
+            "repo": "https://github.com/MohammadFaizAlam/Nuvora",
+            "stack": [
+                "Next.js",
+                "React",
+                "TypeScript",
+                "Framer",
+                "GSAP"
+            ]
+        },
+        {
+            "id": "3",
+            "title": "RL Trading Env",
+            "category": "Web Uygulaması",
+            "year": "2026",
+            "description": "RL Trading Env, otonom işlem ajanlarını geçmiş ve sentetik *OHLCV* piyasa verileri üzerinde eğitmek ve test etmek için geliştirilmiş kapsamlı bir pekiştirmeli öğrenme çalışma alanıdır. Özel *Gymnasium* ortamı, yalnızca ham getiriyi optimize etmek yerine derin düşüşleri ve düzensiz pozisyon büyüklüğünü cezalandıran risk duyarlı bir ödül fonksiyonu kullanır.\n\n*Python* ve *FastAPI* arka ucu **Proximal Policy Optimization (PPO)** bölümlerini çalıştırır ve sonuçları canlı fiyat grafikleri, özsermaye eğrileri ve işlem tabloları içeren *React* ve *TypeScript* paneline aktarır.",
+            "image": "/projects/20260305210513749.jpg",
+            "repo": "https://github.com/MohammadFaizAlam/rl-trading-env",
+            "stack": [
+                "Python",
+                "FastAPI",
+                "React",
+                "TypeScript",
+                "Gymnasium"
+            ]
+        }
+    ],
+    "experience": [
+        {
+            "id": "01",
+            "year": "2022",
+            "description": "Kendi başıma HTML, CSS ve JavaScript yazmaya başladım. İlk tasarımlarım her ekran boyutunda bozuluyordu; DOM mantığı oturana kadar geceleri tarayıcı konsolunda çalıştım.",
+            "stack": [
+                "HTML5",
+                "CSS3",
+                "JavaScript"
+            ]
+        },
+        {
+            "id": "02",
+            "year": "2023",
+            "description": "Reklam ajansım AgencyGrow'u kurarak müşteriler için Google ve Meta kampanyaları yönetmeye başladım. Aynı dönemde piyasa yapısı ve swing trading üzerine çalışmaya başladım.",
+            "stack": [
+                "AgencyGrow",
+                "Google Ads",
+                "Meta Ads",
+                "Trading"
+            ]
+        },
+        {
+            "id": "03",
+            "year": "2024",
+            "description": "Raigad Military School'da CBSE müfredatıyla SSC (10. sınıf) eğitimimi tamamladım. O yılı sınav hazırlığını kodlama projeleri ve ilk müşteri reklam kampanyalarıyla dengeleyerek geçirdim.",
+            "stack": [
+                "SSC (10th)",
+                "CBSE",
+                "Raigad Military School"
+            ]
+        },
+        {
+            "id": "04",
+            "year": "2026",
+            "description": "Andheri'deki Rajhans Vidyalaya'da CBSE HSC (12. sınıf) eğitimimi tamamladım. Sınav hazırlığını AgencyGrow müşteri hesapları, canlı piyasa seansları ve React, Next.js ve Python ile geliştirdiğim web uygulamalarıyla birlikte yürüttüm.",
+            "stack": [
+                "HSC (12th)",
+                "CBSE",
+                "Rajhans Vidyalaya",
+                "Next.js"
+            ]
+        },
+        {
+            "id": "05",
+            "year": "Currently",
+            "description": "Shree L.R. Tiwari Mühendislik Fakültesi'nde Bilgisayar Mühendisliği 1. sınıf öğrencisiyim. Temel mühendislik ve C programlama üzerine çalışırken web projeleri geliştiriyor, AgencyGrow kampanyalarını ve swing işlemlerimi sürdürüyorum.",
+            "stack": [
+                "B.E. Comp Eng",
+                "C",
+                "React",
+                "AgencyGrow"
+            ]
+        }
+    ]
+}
