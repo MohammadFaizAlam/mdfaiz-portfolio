@@ -3,6 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/providers/language-provider";
 import { BlurReveal } from "@/components/effects/blur-reveal";
+import { AmbientGlow } from "@/components/effects/ambient-glow";
 import { sanitizePhone } from "@/lib/utils";
 import { ShineButton } from "@/components/ui/shine-button";
 
@@ -11,6 +12,7 @@ export default function Contact() {
 
     return (
         <section className="relative pt-24 md:pt-32 xl:pt-48 bg-background overflow-hidden border-t border-border/50">
+            <AmbientGlow variant="center" />
 
             <div className="container mx-auto px-container relative z-10">
 
@@ -19,7 +21,7 @@ export default function Contact() {
                     <div className="flex flex-col gap-4 mb-16 lg:mb-32">
                         <BlurReveal>
                             <span className="title-counter">
-                                [005]
+                                [006]
                             </span>
                         </BlurReveal>
 

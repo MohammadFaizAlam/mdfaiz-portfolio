@@ -6,6 +6,7 @@ import { useLanguage } from "@/providers/language-provider";
 import { useState } from "react";
 import { AboutModal } from "@/components/modals/about-modal";
 import { HangingProfile } from "@/components/widgets/hanging-profile";
+import { AmbientGlow } from "@/components/effects/ambient-glow";
 import { RichText } from "@/lib/markdown";
 
 export default function About() {
@@ -14,7 +15,8 @@ export default function About() {
 
     return (
         <section className="w-full container-void bg-background text-foreground overflow-hidden relative">
-            <div className="container mx-auto px-container">
+            <AmbientGlow variant="section-left" />
+            <div className="container mx-auto px-container relative z-10">
                 <div className="flex flex-col xl:flex-row gap-12 xl:gap-32">
 
                     <div className="xl:w-1/4">

@@ -12,6 +12,164 @@
         "PERFORMANCE WITHOUT COMPROMISE",
         "SCALABLE VISION"
     ],
+    "pillars": [
+        {
+            "id": "systems-engineering",
+            "index": "01",
+            "subsystem": "01 / Code",
+            "title": "Systems Engineering",
+            "subtitle": "Software Architecture",
+            "description": "Building resilient web applications and quantitative simulators with **Next.js**, **TypeScript**, and **Python FastAPI**.",
+            "metrics": [
+                {
+                    "label": "Core Stack",
+                    "value": "React · Next.js · Python"
+                },
+                {
+                    "label": "Focus",
+                    "value": "Architectural Integrity"
+                },
+                {
+                    "label": "Simulations",
+                    "value": "BB84 Quantum · RL Env"
+                },
+                {
+                    "label": "Foundation",
+                    "value": "B.Tech Computer Eng."
+                }
+            ],
+            "facets": [
+                {
+                    "id": "frontend-architecture",
+                    "label": "Interface",
+                    "summary": "Zero-CLS App Router layouts paired with spring-physics choreography and custom 2D canvas engines.",
+                    "proof": "Deployed across Nuvora & interactive web systems"
+                },
+                {
+                    "id": "simulation-backends",
+                    "label": "Simulations",
+                    "summary": "Real-time Python & FastAPI engines modeling quantum interception (QBER) and RL episodes.",
+                    "proof": "Powers BB84 Quantum & RL Trading Env"
+                },
+                {
+                    "id": "systems-foundations",
+                    "label": "Foundations",
+                    "summary": "Low-level memory fundamentals in C alongside relational MySQL schemas and strict TypeScript contracts.",
+                    "proof": "Engineered for deterministic execution"
+                }
+            ],
+            "tags": [
+                "Next.js",
+                "TypeScript",
+                "Python",
+                "FastAPI"
+            ]
+        },
+        {
+            "id": "market-mechanics",
+            "index": "02",
+            "subsystem": "02 / Capital",
+            "title": "Market Mechanics",
+            "subtitle": "Swing Trading & Structure",
+            "description": "Decoding market structure via **price action** and **Volume Profile**, backed by quantitative reinforcement learning environments.",
+            "metrics": [
+                {
+                    "label": "Methodology",
+                    "value": "Volume Profile · Price Action"
+                },
+                {
+                    "label": "Key Levels",
+                    "value": "POC · VAH · VAL · HVN"
+                },
+                {
+                    "label": "Quantitative",
+                    "value": "Gymnasium PPO Agents"
+                },
+                {
+                    "label": "Execution",
+                    "value": "Confirmation & Fixed Risk"
+                }
+            ],
+            "facets": [
+                {
+                    "id": "volume-profile",
+                    "label": "Volume Profile",
+                    "summary": "Mapping Point of Control (POC), Value Area boundaries, and low-volume rejection nodes where participation clusters.",
+                    "proof": "Systematic swing setups anchored on structural acceptance"
+                },
+                {
+                    "id": "liquidity-structure",
+                    "label": "Risk & Liquidity",
+                    "summary": "Tracking liquidity sweeps across swing highs/lows with predefined invalidation levels and fixed position sizing.",
+                    "proof": "Mechanical execution with strict drawdown rules"
+                },
+                {
+                    "id": "rl-workbench",
+                    "label": "RL Workbench",
+                    "summary": "Custom Gymnasium environment training autonomous PPO agents on OHLCV data with drawdown-penalized rewards.",
+                    "proof": "Live equity curve & trade-by-trade telemetry"
+                }
+            ],
+            "tags": [
+                "Volume Profile",
+                "Price Action",
+                "POC / VAH / VAL",
+                "Gymnasium PPO"
+            ]
+        },
+        {
+            "id": "growth-advertising",
+            "index": "03",
+            "subsystem": "03 / Attention",
+            "title": "Growth & Advertising",
+            "subtitle": "AgencyGrow · Paid Acquisition",
+            "description": "Founder of **AgencyGrow**. Running full-funnel **Google & Meta Ads** backed by granular *GA4 conversion tracking*.",
+            "metrics": [
+                {
+                    "label": "Venture",
+                    "value": "AgencyGrow · Nuvora"
+                },
+                {
+                    "label": "Platforms",
+                    "value": "Google Ads · Meta · GA4"
+                },
+                {
+                    "label": "Reach",
+                    "value": "89K+ Users · 1.3M Events"
+                },
+                {
+                    "label": "Retention",
+                    "value": "6m 44s Avg Engagement"
+                }
+            ],
+            "facets": [
+                {
+                    "id": "search-intent",
+                    "label": "Paid Campaigns",
+                    "summary": "High-intent Google Search and Meta campaigns structured around negative keyword hygiene and CPL efficiency.",
+                    "proof": "UK & global client acquisition with 2–5x ROI discipline"
+                },
+                {
+                    "id": "telemetry-analytics",
+                    "label": "GA4 Telemetry",
+                    "summary": "End-to-end event pipelines tracking 1.3M+ interactions, traffic distribution, and conversion paths.",
+                    "proof": "89K active users analyzed over 28-day windows"
+                },
+                {
+                    "id": "conversion-design",
+                    "label": "Storefronts",
+                    "summary": "Pairing paid traffic with high-speed landing systems (Nuvora) engineered to convert cold clicks into calls.",
+                    "proof": "Zero layout shift & clear service positioning"
+                }
+            ],
+            "tags": [
+                "AgencyGrow",
+                "Google Ads",
+                "Meta Ads",
+                "GA4 Telemetry"
+            ]
+        }
+    ],
     "projects": [
         {
             "id": "1",

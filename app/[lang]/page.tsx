@@ -2,6 +2,7 @@ import ScrollProgress from "@/components/layout/scroll-progress";
 import ManifestoFlow from "@/components/effects/manifesto-flow";
 import Hero from "@/components/sections/hero";
 import About from "@/components/sections/about";
+import Pillars from "@/components/sections/pillars";
 import Stack from "@/components/sections/stack";
 import Projects from "@/components/sections/projects";
 import Roadmap from "@/components/sections/roadmap";
@@ -24,23 +25,29 @@ export default function Home() {
 
           <ManifestoFlow />
 
+          <section id="pillars">
+            <Pillars />
+          </section>
+
+          <ManifestoFlow reverse />
+
           <section id="stack">
             <Stack />
           </section>
 
-          <ManifestoFlow reverse />
+          <ManifestoFlow />
 
           <section id="projects">
             <Projects />
           </section>
 
-          <ManifestoFlow />
+          <ManifestoFlow reverse />
 
           <section id="roadmap">
             <Roadmap />
           </section>
 
-          <ManifestoFlow reverse />
+          <ManifestoFlow />
 
           <section id="contact">
             <Contact />

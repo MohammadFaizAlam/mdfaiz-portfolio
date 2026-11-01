@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { BlurReveal } from "@/components/effects/blur-reveal";
+import { AmbientGlow } from "@/components/effects/ambient-glow";
 import { useLanguage } from "@/providers/language-provider";
 import type { RoadmapItem } from "@/types/roadmap";
 
@@ -27,8 +28,7 @@ export default function Roadmap() {
 
     return (
         <section ref={containerRef} className="relative container-void overflow-hidden py-32 xl:py-48 border-t border-border/50">
-            <div className="absolute top-1/4 left-0 w-full max-w-lg h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-x-1/2" />
-            <div className="absolute bottom-1/4 right-0 w-full max-w-lg h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
+            <AmbientGlow variant="dual" />
 
             <motion.div
                 style={{ y: yBackground }}
@@ -44,7 +44,7 @@ export default function Roadmap() {
                 <div className="flex flex-col md:items-center mb-24 md:mb-40 gap-4 text-center">
                     <BlurReveal>
                         <span className="title-counter">
-                            [004]
+                            [005]
                         </span>
                     </BlurReveal>
 

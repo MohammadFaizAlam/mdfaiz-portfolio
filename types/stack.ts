@@ -2,6 +2,8 @@ export type StackItem = {
     name: string;
     icon: string;
     featured?: boolean;
+    proficiency?: string;
+    usage?: string;
 };
 
 export type StackCategories = {
@@ -10,3 +12,4 @@ export type StackCategories = {
     database: StackItem[];
     tools: StackItem[];
 };
+
