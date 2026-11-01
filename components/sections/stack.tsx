@@ -62,6 +62,7 @@ export default function Stack() {
     const [isPointerInside, setIsPointerInside] = useState(false);
 
     // Subtle cursor-following spotlight coordinates
+    const rectRef = useRef<{ left: number; top: number } | null>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const smoothX = useSpring(mouseX, { stiffness: 300, damping: 35, mass: 0.4 });
@@ -69,18 +70,35 @@ export default function Stack() {
 
     const spotlightBackground = useMotionTemplate`radial-gradient(520px circle at ${smoothX}px ${smoothY}px, var(--color-foreground) 0%, transparent 70%)`;
 
-    const handlePointerMove = useCallback(
+    const handlePointerEnter = useCallback(
         (e: React.PointerEvent<HTMLDivElement>) => {
-            if (prefersReducedMotion || !spotlightContainerRef.current) return;
-            const rect = spotlightContainerRef.current.getBoundingClientRect();
+            if (prefersReducedMotion) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            rectRef.current = { left: rect.left, top: rect.top };
             mouseX.set(e.clientX - rect.left);
             mouseY.set(e.clientY - rect.top);
-            if (!isPointerInside) setIsPointerInside(true);
+            setIsPointerInside(true);
         },
-        [prefersReducedMotion, mouseX, mouseY, isPointerInside]
+        [prefersReducedMotion, mouseX, mouseY]
+    );
+
+    const handlePointerMove = useCallback(
+        (e: React.PointerEvent<HTMLDivElement>) => {
+            if (prefersReducedMotion) return;
+            if (!rectRef.current && spotlightContainerRef.current) {
+                const rect = spotlightContainerRef.current.getBoundingClientRect();
+                rectRef.current = { left: rect.left, top: rect.top };
+            }
+            if (rectRef.current) {
+                mouseX.set(e.clientX - rectRef.current.left);
+                mouseY.set(e.clientY - rectRef.current.top);
+            }
+        },
+        [prefersReducedMotion, mouseX, mouseY]
     );
 
     const handlePointerLeave = useCallback(() => {
+        rectRef.current = null;
         setIsPointerInside(false);
     }, []);
 
@@ -117,6 +135,7 @@ export default function Stack() {
                 {/* Interactive Category Spotlight Surface */}
                 <div
                     ref={spotlightContainerRef}
+                    onPointerEnter={handlePointerEnter}
                     onPointerMove={handlePointerMove}
                     onPointerLeave={handlePointerLeave}
                     className="relative rounded-3xl border border-border/50 bg-secondary/[0.03] backdrop-blur-sm p-6 sm:p-10 lg:p-12 overflow-hidden"

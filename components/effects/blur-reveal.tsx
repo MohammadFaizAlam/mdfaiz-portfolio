@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface BlurRevealProps {
@@ -15,13 +15,15 @@ export function BlurReveal({
     className,
     delay = 0,
 }: BlurRevealProps) {
+    const prefersReducedMotion = useReducedMotion() ?? false;
+
     return (
         <motion.div
-            initial={{ opacity: 0, filter: "blur(15px)", y: 30 }}
-            whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-            viewport={{ once: false, margin: "-60px" }}
-            transition={{ duration: 0.9, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className={cn("will-change-[opacity,filter,transform]", className)}
+            initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+            className={cn("transform-gpu", className)}
         >
             {children}
         </motion.div>

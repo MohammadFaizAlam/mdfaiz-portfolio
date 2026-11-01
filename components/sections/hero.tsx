@@ -2,31 +2,14 @@
 
 import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { useScroll, useTransform, useMotionTemplate, motion } from "framer-motion";
+import { useScroll, useTransform, useMotionValueEvent, motion } from "framer-motion";
 import { useLanguage } from "@/providers/language-provider";
 import { ArrowRight, Mouse } from "lucide-react";
 import { ContactModal } from "@/components/modals/contact-modal";
 import { InteractiveParticles } from "@/components/effects/interactive-particles";
 import { AmbientGlow } from "@/components/effects/ambient-glow";
 import { RichText } from "@/lib/markdown";
-
-// const TRACK_1 = [
-//     "/hero-slider/makise-kurisu-2.webp",
-//     "/hero-slider/atam-1.webp",
-//     "/hero-slider/kintaro-2.webp",
-//     "/hero-slider/makise-kurisu-1.webp",
-//     "/hero-slider/atam-2.webp",
-//     "/hero-slider/kintaro-1.webp",
-// ] as const;
-
-// const TRACK_2 = [
-//     "/hero-slider/kintaro-1.webp",
-//     "/hero-slider/atam-2.webp",
-//     "/hero-slider/makise-kurisu-1.webp",
-//     "/hero-slider/kintaro-2.webp",
-//     "/hero-slider/atam-1.webp",
-//     "/hero-slider/makise-kurisu-2.webp",
-// ] as const;
+import { cn } from "@/lib/utils";
 
 const TRACK_1 = [
     "/hero-slider/img-1.jpg",
@@ -53,13 +36,17 @@ export default function Hero() {
     const { content, dict } = useLanguage();
     const containerRef = useRef<HTMLDivElement>(null);
     const [contactOpen, setContactOpen] = useState(false);
+    const [isPastHero, setIsPastHero] = useState(false);
 
     const { scrollY } = useScroll();
     const opacity = useTransform(scrollY, [0, 800], [1, 0]);
     const scale = useTransform(scrollY, [0, 800], [1, 0.94]);
     const y = useTransform(scrollY, [0, 800], [0, -150]);
-    const blurValue = useTransform(scrollY, [0, 800], [0, 10]);
-    const filter = useMotionTemplate`blur(${blurValue}px)`;
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const past = latest > 860;
+        setIsPastHero((prev) => (prev === past ? prev : past));
+    });
 
     const scrollToProjects = useCallback(() => {
         const projectsSection = document.getElementById("projects");
@@ -71,7 +58,10 @@ export default function Hero() {
     return (
         <section
             ref={containerRef}
-            className="sticky top-0 h-screen w-full flex flex-col justify-between bg-background px-container md:px-16 pt-28 pb-12 sm:pt-32 sm:pb-16 2xl:pb-24 overflow-hidden"
+            className={cn(
+                "sticky top-0 h-screen w-full flex flex-col justify-between bg-background px-container md:px-16 pt-28 pb-12 sm:pt-32 sm:pb-16 2xl:pb-24 overflow-hidden",
+                isPastHero && "invisible pointer-events-none"
+            )}
             id="home"
         >
             <AmbientGlow variant="hero" />
@@ -79,17 +69,17 @@ export default function Hero() {
 
             <motion.div
                 style={{ opacity }}
-                className="absolute top-0 right-6 sm:right-12 md:right-16 lg:right-24 xl:right-36 2xl:right-48 bottom-0 h-full w-55 sm:w-65 md:w-85 lg:w-100 xl:w-110 2xl:w-120 flex gap-3 sm:gap-4 px-2 overflow-hidden z-5 pointer-events-none select-none opacity-[0.22] dark:opacity-[0.28] mix-blend-luminosity"
+                className="absolute top-0 right-6 sm:right-12 md:right-16 lg:right-24 xl:right-36 2xl:right-48 bottom-0 h-full w-55 sm:w-65 md:w-85 lg:w-100 xl:w-110 2xl:w-120 flex gap-3 sm:gap-4 px-2 overflow-hidden z-5 pointer-events-none select-none opacity-[0.22] dark:opacity-[0.28] mix-blend-luminosity transform-gpu"
             >
                 <div className="max-md:hidden flex-1 h-full overflow-hidden relative">
                     <motion.div
-                        animate={{ y: ["0%", "-50%"] }}
+                        animate={isPastHero ? undefined : { y: ["0%", "-50%"] }}
                         transition={{
                             ease: "linear",
                             duration: 32,
                             repeat: Infinity
                         }}
-                        className="flex flex-col gap-3 sm:gap-4 pt-4"
+                        className="flex flex-col gap-3 sm:gap-4 pt-4 transform-gpu"
                     >
                         {COL_1_IMAGES.map((src, idx) => (
                             <div key={idx} className="w-full aspect-3/4 relative overflow-hidden rounded-4xl border border-border/5">
@@ -108,13 +98,13 @@ export default function Hero() {
 
                 <div className="max-md:opacity-50 flex-1 h-full overflow-hidden relative">
                     <motion.div
-                        animate={{ y: ["-50%", "0%"] }}
+                        animate={isPastHero ? undefined : { y: ["-50%", "0%"] }}
                         transition={{
                             ease: "linear",
                             duration: 32,
                             repeat: Infinity
                         }}
-                        className="flex flex-col gap-3 sm:gap-4 pt-4"
+                        className="flex flex-col gap-3 sm:gap-4 pt-4 transform-gpu"
                     >
                         {COL_2_IMAGES.map((src, idx) => (
                             <div key={idx} className="w-full aspect-3/4 relative overflow-hidden rounded-4xl border border-border/5">
@@ -136,8 +126,8 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-                style={{ opacity, scale, y, filter }}
-                className="relative z-20 flex-1 flex flex-col gap-6 sm:gap-8 xl:gap-12 justify-end w-full h-full will-change-[opacity,transform,filter]"
+                style={{ opacity, scale, y }}
+                className="relative z-20 flex-1 flex flex-col gap-6 sm:gap-8 xl:gap-12 justify-end w-full h-full transform-gpu"
             >
 
                 <div className="flex justify-between items-start w-full">
@@ -150,9 +140,13 @@ export default function Hero() {
                         <div className="w-px h-12 bg-border relative overflow-hidden">
                             <motion.div
                                 className="absolute top-0 left-0 w-full h-1/2 bg-foreground"
-                                animate={{
-                                    y: ["0%", "100%", "0%"]
-                                }}
+                                animate={
+                                    isPastHero
+                                        ? undefined
+                                        : {
+                                              y: ["0%", "100%", "0%"]
+                                          }
+                                }
                                 transition={{
                                     duration: 2.5,
                                     repeat: Infinity,

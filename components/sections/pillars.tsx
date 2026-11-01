@@ -5,7 +5,6 @@ import {
     motion,
     useScroll,
     useTransform,
-    useSpring,
     useMotionValueEvent,
     useReducedMotion,
     AnimatePresence,
@@ -37,9 +36,7 @@ export default function Pillars() {
 
     useMotionValueEvent(scrollYProgress, "change", (latest) => {
         const idx = getActivePillarIndex(latest, pillars.length);
-        if (idx !== activeIndex) {
-            setActiveIndex(idx);
-        }
+        setActiveIndex((prev) => (prev === idx ? prev : idx));
     });
 
     const scrollToPillar = useCallback(
@@ -90,7 +87,7 @@ export default function Pillars() {
                     {/* Left Sticky Index Rail (Desktop xl+) */}
                     <aside
                         aria-label={dict.title.pillars}
-                        className="hidden xl:flex flex-col items-center justify-between sticky top-24 h-[410px] py-6 px-2 border border-border/50 bg-background/80 backdrop-blur-xl rounded-2xl"
+                        className="hidden xl:flex flex-col items-center justify-between sticky top-24 h-[410px] py-6 px-2 border border-border/50 bg-background/90 backdrop-blur-md rounded-2xl"
                     >
                         <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-muted-foreground/50 [writing-mode:vertical-lr] rotate-180 select-none">
                             INDEX
@@ -141,12 +138,7 @@ export default function Pillars() {
                         </span>
                     </aside>
 
-                    {/* Progressive Overlapping Sticky Stack
-                        IMPORTANT: In CSS Positioned Layout, a sticky element is constrained by its MARGIN BOX
-                        against its parent container's bottom edge. Therefore, sticky elements must have `mb-0`,
-                        and scroll dwell runways must be separate non-sticky sibling spacer elements so Card 1 & Card 2
-                        remain locked in place while Card 3 slides 100% of the way over them.
-                    */}
+                    {/* Progressive Overlapping Sticky Stack */}
                     <div className="relative flex flex-col">
                         {pillars.map((pillar, index) => {
                             const isLast = index === pillars.length - 1;
@@ -160,7 +152,7 @@ export default function Pillars() {
                                             top: `calc(4.75rem + ${index * 44}px)`,
                                             zIndex: (index + 1) * 10,
                                         }}
-                                        className="sticky mb-0 transition-all duration-300"
+                                        className="sticky mb-0"
                                     >
                                         <PillarStackCard
                                             pillar={pillar}
@@ -210,19 +202,13 @@ function PillarStackCard({
         pillar.facets[0]?.id ?? ""
     );
 
-    const rawScale = useTransform(scrollYProgress, (p) => {
+    const scale = useTransform(scrollYProgress, (p) => {
         return computePillarCardTransform(index, total, p, reducedMotion).scale;
     });
 
     const rawDimOpacity = useTransform(scrollYProgress, (p) => {
         return computePillarCardTransform(index, total, p, reducedMotion)
             .dimOpacity;
-    });
-
-    const scale = useSpring(rawScale, {
-        stiffness: 260,
-        damping: 32,
-        restDelta: 0.001,
     });
 
     const activeFacet =
@@ -234,7 +220,7 @@ function PillarStackCard({
                 scale: reducedMotion ? 1 : scale,
                 transformOrigin: "top center",
             }}
-            className="group relative w-full rounded-2xl sm:rounded-3xl border border-border/60 bg-background/95 backdrop-blur-2xl shadow-[0_-16px_48px_-12px_rgba(0,0,0,0.28)] dark:shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.65)] overflow-hidden transition-colors duration-500 hover:border-foreground/25"
+            className="group relative w-full rounded-2xl sm:rounded-3xl border border-border/60 bg-background shadow-[0_-16px_48px_-12px_rgba(0,0,0,0.28)] dark:shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.65)] overflow-hidden transition-colors duration-500 hover:border-foreground/25 transform-gpu"
         >
             {/* Top Specular Hairline */}
             <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-foreground/25 to-transparent pointer-events-none" />

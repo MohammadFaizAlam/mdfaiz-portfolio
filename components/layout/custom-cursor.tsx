@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function CustomCursor() {
     const isVisibleRef = useRef(false);
+    const isHoveringRef = useRef(false);
     const [isVisible, setIsVisible] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [isEnabled, setIsEnabled] = useState(false);
@@ -13,13 +14,13 @@ export function CustomCursor() {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
-    const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+    const springConfig = { damping: 28, stiffness: 380, mass: 0.35 };
     const cursorXSpring = useSpring(cursorX, springConfig);
     const cursorYSpring = useSpring(cursorY, springConfig);
 
     useEffect(() => {
         if (window.matchMedia("(pointer: coarse)").matches) return;
-        
+
         const frameId = requestAnimationFrame(() => {
             setIsEnabled(true);
         });
@@ -33,19 +34,21 @@ export function CustomCursor() {
             }
         };
 
-        const isInteractive = (el: HTMLElement): boolean => {
+        const isInteractive = (el: HTMLElement | null): boolean => {
+            if (!el || typeof el.tagName !== "string") return false;
             const tag = el.tagName.toLowerCase();
             if (tag === "button" || tag === "a" || tag === "input" || tag === "select" || tag === "textarea") return true;
-            if (el.closest("button") || el.closest("a")) return true;
-            if (el.getAttribute("role") === "button") return true;
-            if (el.classList.contains("cursor-pointer")) return true;
-            if (el.dataset.cursor === "pointer") return true;
+            if (el.closest("button, a, [role='button'], [data-cursor='pointer'], .cursor-pointer")) return true;
             return false;
         };
 
         const handleMouseOver = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            setIsHovering(isInteractive(target));
+            const target = e.target as HTMLElement | null;
+            const nextHover = isInteractive(target);
+            if (nextHover !== isHoveringRef.current) {
+                isHoveringRef.current = nextHover;
+                setIsHovering(nextHover);
+            }
         };
 
         const handleMouseLeave = () => {
@@ -57,8 +60,8 @@ export function CustomCursor() {
             setIsVisible(true);
         };
 
-        window.addEventListener("mousemove", moveCursor);
-        window.addEventListener("mouseover", handleMouseOver);
+        window.addEventListener("mousemove", moveCursor, { passive: true });
+        window.addEventListener("mouseover", handleMouseOver, { passive: true });
         document.addEventListener("mouseleave", handleMouseLeave);
         document.addEventListener("mouseenter", handleMouseEnter);
 
@@ -75,7 +78,7 @@ export function CustomCursor() {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 pointer-events-none hidden md:flex items-center justify-center mix-blend-difference"
+            className="fixed top-0 left-0 pointer-events-none hidden md:flex items-center justify-center mix-blend-difference transform-gpu"
             style={{
                 x: cursorXSpring,
                 y: cursorYSpring,
@@ -94,7 +97,7 @@ export function CustomCursor() {
                     width: isHovering ? 64 : 32,
                     height: isHovering ? 64 : 32,
                 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
             >
                 <motion.div
                     className="w-1.5 h-1.5 rounded-full bg-white"
@@ -102,7 +105,7 @@ export function CustomCursor() {
                         scale: isHovering ? 0 : 1,
                         opacity: isHovering ? 0 : 1,
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.18 }}
                 />
             </motion.div>
         </motion.div>

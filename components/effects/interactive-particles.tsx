@@ -122,16 +122,20 @@ export function InteractiveParticles() {
             const canvasHeight = logicalHeight * dpr;
 
             const logicalArea = logicalWidth * logicalHeight;
-            let count = Math.floor(logicalArea / 12000);
-            count = Math.max(20, Math.min(count, 150));
+            let count = Math.floor(logicalArea / 18000);
+            count = Math.max(18, Math.min(count, 70));
 
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle(canvasWidth, canvasHeight, dpr));
             }
         };
 
+        let isScrolledPast = window.scrollY > window.innerHeight;
+
+        const shouldRun = () => isVisible && !isScrolledPast && !document.hidden;
+
         const startLoop = () => {
-            if (animationFrameId) return;
+            if (animationFrameId || !shouldRun()) return;
             animationFrameId = requestAnimationFrame(animate);
         };
 
@@ -143,7 +147,7 @@ export function InteractiveParticles() {
         };
 
         const animate = () => {
-            if (!isVisible) {
+            if (!shouldRun()) {
                 animationFrameId = 0;
                 return;
             }
@@ -163,7 +167,7 @@ export function InteractiveParticles() {
         const visibilityObserver = new IntersectionObserver(
             ([entry]) => {
                 isVisible = entry.isIntersecting;
-                if (isVisible) {
+                if (shouldRun()) {
                     startLoop();
                 } else {
                     stopLoop();
@@ -173,7 +177,28 @@ export function InteractiveParticles() {
         );
         visibilityObserver.observe(canvas);
 
+        const handleScroll = () => {
+            const nextPast = window.scrollY > window.innerHeight;
+            if (nextPast !== isScrolledPast) {
+                isScrolledPast = nextPast;
+                if (shouldRun()) {
+                    startLoop();
+                } else {
+                    stopLoop();
+                }
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (shouldRun()) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
+        };
+
         const handleMouseMove = (e: MouseEvent) => {
+            if (!shouldRun()) return;
             mouseRef.current.x = (e.clientX - cachedRect.left) * cachedDpr;
             mouseRef.current.y = (e.clientY - cachedRect.top) * cachedDpr;
         };
@@ -183,16 +208,20 @@ export function InteractiveParticles() {
             mouseRef.current.y = -1000;
         };
 
-        window.addEventListener("resize", resizeCanvas);
-        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("resize", resizeCanvas, { passive: true });
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        window.addEventListener("mousemove", handleMouseMove, { passive: true });
         window.addEventListener("mouseleave", handleMouseLeave);
+        document.addEventListener("visibilitychange", handleVisibilityChange);
 
         resizeCanvas();
 
         return () => {
             window.removeEventListener("resize", resizeCanvas);
+            window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mouseleave", handleMouseLeave);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
             stopLoop();
             visibilityObserver.disconnect();
             themeObserver.disconnect();

@@ -2,25 +2,25 @@
 
 import React, { useState, useEffect, useRef, useMemo, useCallback, useId } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Menu, X } from "lucide-react";
 // import LanguageSwitcher from "@/components/widgets/language-switcher";
 import ThemeSwitcher from "@/components/widgets/theme-switcher";
 import { useLanguage } from "@/providers/language-provider";
 import { useLenis } from "@/providers/smooth-scroll-provider";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const { dict } = useLanguage();
   const lenis = useLenis();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const [dimensions, setDimensions] = useState({
     screenWidth: 1920,
-    containerWidth: 1280,
     scrollHeight: 800,
   });
 
-  const dummyRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -28,14 +28,12 @@ export default function Navbar() {
 
   const { scrollY } = useScroll();
 
-  const bgOpacity = useTransform(scrollY, [0, dimensions.scrollHeight], [0, 1]);
-  const backdropBlur = useTransform(scrollY, [0, dimensions.scrollHeight], [0, 16]);
-  const backdropFilter = useMotionTemplate`blur(${backdropBlur}px)`;
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const nextScrolled = latest > 48;
+    setIsScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+  });
 
-  const py = useTransform(scrollY, [0, dimensions.scrollHeight], [24, 12]);
-
-  const startWidth = Math.max(dimensions.screenWidth, dimensions.containerWidth);
-  const navMaxWidth = useTransform(scrollY, [0, dimensions.scrollHeight], [startWidth, dimensions.containerWidth]);
+  const bgOpacity = useTransform(scrollY, [0, dimensions.scrollHeight * 0.5], [0, 1]);
 
   const navLinks = useMemo(() => [
     { name: dict.nav.home, href: "#home" },
@@ -54,12 +52,11 @@ export default function Navbar() {
       setDimensions({
         screenWidth: window.innerWidth,
         scrollHeight: window.innerHeight,
-        containerWidth: dummyRef.current ? dummyRef.current.getBoundingClientRect().width : 1280,
       });
     };
 
     updateDimensions();
-    window.addEventListener("resize", updateDimensions);
+    window.addEventListener("resize", updateDimensions, { passive: true });
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
@@ -148,24 +145,14 @@ export default function Navbar() {
       setIsMobileMenuOpen(false);
 
       setTimeout(() => {
-        let navbarHeight = 80;
-        if (headerRef.current) {
-          const currentHeight = headerRef.current.offsetHeight;
-          const currentScroll = window.scrollY;
-          const currentPy = currentScroll >= dimensions.scrollHeight
-            ? 12
-            : 24 - (currentScroll / dimensions.scrollHeight) * 12;
-          const heightDifference = (currentPy - 12) * 2;
-          navbarHeight = Math.max(currentHeight - heightDifference, 0);
-        }
-
+        const navbarHeight = headerRef.current ? headerRef.current.offsetHeight : 64;
         const isDesktop = dimensions.screenWidth >= 1280;
         const isAboutOnDesktop = targetId === "about" && isDesktop;
 
         if (lenis) {
           lenis.scrollTo(targetId === "home" ? 0 : elem!, {
             offset: targetId === "home" ? 0 : isAboutOnDesktop ? 0 : -navbarHeight,
-            duration: 1.5,
+            duration: 1.2,
           });
         } else {
           if (targetId === "home") {
@@ -179,38 +166,31 @@ export default function Navbar() {
             });
           }
         }
-      }, 100);
+      }, 60);
     }
-  }, [lenis, dimensions.scrollHeight, dimensions.screenWidth]);
+  }, [lenis, dimensions.screenWidth]);
 
   return (
-    <motion.header
+    <header
       ref={headerRef}
       role={isMobileMenuOpen ? "dialog" : undefined}
       aria-modal={isMobileMenuOpen ? true : undefined}
       aria-label={isMobileMenuOpen ? dict.nav.menuLabel : undefined}
-      style={{
-        paddingTop: py,
-        paddingBottom: py,
-      }}
-      className="fixed top-0 left-0 right-0 z-100 transition-colors duration-300"
+      className={cn(
+        "fixed top-0 left-0 right-0 z-100 transition-[padding] duration-300 ease-out",
+        isScrolled ? "py-3" : "py-5"
+      )}
     >
-      <div ref={dummyRef} className="container invisible absolute pointer-events-none -z-50" />
-
       <motion.div
-        style={{
-          opacity: bgOpacity,
-          backdropFilter,
-          WebkitBackdropFilter: backdropFilter,
-        }}
-        className="absolute inset-0 bg-background/75 border-b border-border/40 -z-10 pointer-events-none"
+        style={{ opacity: bgOpacity }}
+        className="absolute inset-0 bg-background/80 backdrop-blur-md border-b border-border/40 -z-10 pointer-events-none transform-gpu"
       />
 
-      <motion.nav
-        style={{
-          maxWidth: navMaxWidth,
-        }}
-        className="mx-auto px-container flex items-center justify-between w-full"
+      <nav
+        className={cn(
+          "mx-auto px-container flex items-center justify-between w-full transition-[max-width] duration-500 ease-out",
+          isScrolled ? "container" : "max-w-[100vw]"
+        )}
       >
         <Link
           href="#home"
@@ -257,7 +237,7 @@ export default function Navbar() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </motion.nav>
+      </nav>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -314,6 +294,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }
